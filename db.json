@@ -15,6 +15,14 @@
             "nombre": "Carlos",
             "username": "CarlosBricen0",
             "password": "827ccb0eea8a706c4c34a16891f84e7b"
+        },
+        {
+            "id": 2,
+            "apellido_paterno": "Carreño",
+            "apellido_materno": "Muñoz",
+            "nombre": "Axel",
+            "username": "Oxysh",
+            "password": "827ccb0eea8a706c4c34a16891f84e7b"
         }
     ]
 }
