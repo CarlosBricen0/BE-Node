@@ -1,28 +1,34 @@
-const Users= require('./user.model');
+const User= require('./../collections/user.model');
 
-const User = {
-    list: async (req, res) => {
-        const users = await Users.find()
+const UserHandler = {
+    list: async (_req,res) => {
+        const users = await User.find()
         res.status(200).send(users)
     },
 
     create: async (req, res) => {
-        const user = new Users(req.body)
+        const user = new User(req.body)
         console.log(user)
         const saveUser = await user.save()
-        res.status(201).send(saveUser._id)
+        res.status(200).send(saveUser._id)
     },
 
-    get: async (req, res) => {
+    getById: async (req, res) => {
         const { id } = req.params
-        const user = await Users.findOne({_id: id})
+        const user = await User.findOne({_id: id})
         res.status(200).send(user)
+    },
+
+    getByName: async (req, res) => {
+        const { user } = req.params
+        const userReturn = await User.findOne({user: user})
+        res.status(200).send(userReturn)
     },
 
     update: async (req, res) => {
         //Obtener ID
         const { id } = req.params
-        const user = await Users.findOne({_id: id})
+        const user = await User.findOne({_id: id})
 
         //Actualizar Datos
         Object.assign(user, req.body)
@@ -33,7 +39,7 @@ const User = {
     delete: async (req, res) => {
         //Obtener ID
         const { id } = req.params
-        const user = await Users.findOne({_id: id})
+        const user = await User.findOne({_id: id})
 
         //Eliminar Datos
         if(user){
@@ -44,4 +50,4 @@ const User = {
     },
 }
 
-module.exports = User;
+module.exports = UserHandler;
