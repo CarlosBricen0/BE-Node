@@ -1,52 +1,80 @@
 const User= require('./../collections/user.model');
 
 const UserHandler = {
-    list: async (_req,res) => {
-        const users = await User.find()
-        res.status(200).send(users)
+    list: async (_req, res) => {
+        try {
+            const users = await User.find();
+            res.status(200).send(users);
+        } catch (error) {
+            res.status(400).send('Petición incorrecta');
+        }
     },
 
     create: async (req, res) => {
-        const user = new User(req.body)
-        console.log(user)
-        const saveUser = await user.save()
-        res.status(200).send(saveUser._id)
+        try {
+            const user = new User(req.body);
+            const savedUser = await user.save();
+            res.status(200).send({ message: 'Ok', id: savedUser._id });
+        } catch (error) {
+            res.status(400).send('Usuario no se puede crear');
+        }
     },
 
     getById: async (req, res) => {
-        const { id } = req.params
-        const user = await User.findOne({_id: id})
-        res.status(200).send(user)
+        try {
+            const { id } = req.params;
+            const user = await User.findOne({ _id: id });
+            res.status(200).send(user);
+        } catch (error) {
+            res.status(400).send('Usuario incorrecto');
+        }
     },
 
     getByName: async (req, res) => {
-        const { user } = req.params
-        const userReturn = await User.findOne({user: user})
-        res.status(200).send(userReturn)
+        try {
+            const { user } = req.params;
+            const userReturn = await User.findOne({ user: user });
+            res.status(200).send(userReturn);
+        } catch (error) {
+            res.status(400).send('Usuario incorrecto');
+        }
+    },
+    getByPass: async (req, res) => {
+        try {
+            const { password } = req.params;
+            const userReturn = await User.findOne({ password: password });
+            res.status(200).send(userReturn);
+        } catch (error) {
+            res.status(400).send('Token incorrecto');
+        }
     },
 
     update: async (req, res) => {
-        //Obtener ID
-        const { id } = req.params
-        const user = await User.findOne({_id: id})
+        try {
+            const { id } = req.params;
+            let user = await User.findOne({ _id: id });
 
-        //Actualizar Datos
-        Object.assign(user, req.body)
-        await user.save()
-        res.sendStatus(204)
+            Object.assign(user, req.body);
+            await user.save();
+            res.status(200).send('Ok');
+        } catch (error) {
+            res.status(400).send('Usuario no se pudo actualizar');
+        }
     },
 
     delete: async (req, res) => {
-        //Obtener ID
-        const { id } = req.params
-        const user = await User.findOne({_id: id})
+        try {
+            const { id } = req.params;
+            let user = await User.findOne({ _id: id });
 
-        //Eliminar Datos
-        if(user){
-            user.remove()
+            if (user) {
+                await user.remove();
+            }
+
+            res.status(200).send('Ok');
+        } catch (error) {
+            res.status(400).send('Usuario no se pudo eliminar');
         }
-
-        res.sendStatus(204)
     },
 }
 
