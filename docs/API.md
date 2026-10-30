@@ -18,7 +18,7 @@ La comunicación habitual es servidor Next → API. `BACKEND_API_URL` es privada
 | DELETE /v1/posts/:id | Admin | elimina post y sus relaciones |
 | GET /v1/products | Bearer | hasta 100 productos no archivados |
 | GET /v1/products/:id | Bearer | producto no archivado o 404 |
-| POST /v1/orders/checkout | Bearer | `{productId,size,requestKey,shipping:{address,city,state,postalCode}}`; retorna `{url,orderId}`; precio leído en servidor |
+| POST /v1/orders/checkout | Bearer | `{productId,size,requestKey,shipping:{address,city,state,postalCode}}`; retorna `{url}`; precio leído en servidor |
 | GET /v1/orders/:id | Bearer propietario | resumen con producto/despacho o false si no pertenece al usuario |
 | GET /v1/billing | Bearer | `{subscription,hasAccess}`; fechas ISO |
 | POST /v1/billing/checkout | Bearer | `{plan:"monthly"|"yearly"}`; `{url}` |
